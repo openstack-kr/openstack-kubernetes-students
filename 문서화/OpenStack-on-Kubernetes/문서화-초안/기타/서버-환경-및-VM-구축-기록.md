@@ -702,8 +702,6 @@ ansible all -m ping
 
 ## 13. 참고 자료
 
-- OpenInfra Lab Kit 구축 브리프 (개정판)
-- OpenInfra Lab Kit 구축 기록 (0~1단계 완료, 2단계 시작)
 - 서버에서 직접 확인한 `virsh`, `terraform`, `chronyc`, `aa-status` 실행 결과
 - [Terraform 공식 문서](https://developer.hashicorp.com/terraform/docs)
 - [libvirt 공식 문서](https://libvirt.org/)
