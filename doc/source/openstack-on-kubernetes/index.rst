@@ -208,3 +208,28 @@ OpenStack 과 Kubernetes 를 처음 접하며, 한 대의 서버에서 직접 �
    openstack-deploy
    verification
    troubleshooting
+
+단계별 초안 및 부록
+==================
+
+.. note::
+
+   아래 문서는 Markdown 초안을 RST로 변환한 자료입니다.
+   기존 문서 구성과 실제 수행 내용을 대조하며 통합·수정 중이며,
+   아직 진행하지 않은 단계와 검증되지 않은 내용이 포함될 수 있습니다.
+
+.. toctree::
+   :maxdepth: 2
+
+   overview
+   ch0_prerequisites
+   ch1_terraform_vm
+   ch2_ansible
+   ch3_kubernetes
+   ch4_prereqs
+   ch5_openstack
+   ch6_verify
+   ch7_troubleshooting
+   appendix_diagnostics
+   appendix_manual_refs
+   appendix_versions
