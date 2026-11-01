@@ -18,10 +18,7 @@ sudo bash scripts/collect-diag.sh        # 현재 폴더에 diag-<시각>.tar.gz
 
 - 시스템을 바꾸지 않는 읽기 전용 스크립트입니다. (`scripts/collect-diag.sh`)
 - 모으는 것: OS·버전, AppArmor 상태와 거부 로그, 디스크 경로·소유권, libvirt/QEMU 로그, 네트워크·시간 동기화, 쿠버네티스 상태.
-- 공인 IP, 토큰, 개인키 줄은 자동으로 가립니다. 그래도 **올리기 전에 직접 훑어보세요.**
 
-> [!WARNING]
-> 자동 가림은 완벽하지 않습니다. 공개 저장소나 이슈에 첨부하기 전에 `diag-*/` 안의 파일을 눈으로 확인하세요.
 
 ## 2. "VM 시작 `Permission denied`" 판별 순서
 
