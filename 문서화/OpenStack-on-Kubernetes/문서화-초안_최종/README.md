@@ -18,7 +18,8 @@
 | `appendix_versions.md` | 버전 표 (`versions.env`, 논문과 일치해야 함) |
 | `appendix_manual_refs.md` | 수동 수행 기준 문서 |
 | `appendix_glossary.md` | 용어집 |
-| `GIT_VSCODE_GUIDE.md` | VS Code로 커밋하고 GitHub에 올리는 방법 |
+| `appendix_diagnostics.md` | 진단 로그 수집, 새 머신 재현 검증 |
+| `scripts/collect-diag.sh`, `scripts/preflight.sh` | 로그 수집(읽기 전용), 1단계 전 사전 점검 |
 | `conf.py`, `_toc.yml`, `Makefile`, `requirements.txt` | Sphinx 빌드용 (문서 내용과 무관) |
 
 ## Sphinx로 빌드

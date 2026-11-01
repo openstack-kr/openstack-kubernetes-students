@@ -13,3 +13,5 @@ chapters:
   - file: appendix_versions
   - file: appendix_manual_refs
   - file: appendix_glossary
+  - file: appendix_glossary
+  - file: appendix_diagnostics

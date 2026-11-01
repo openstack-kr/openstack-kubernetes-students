@@ -30,3 +30,4 @@ OpenInfra Lab Kit은 새로운 플랫폼이 아니라, 기존 오픈소스 도�
 10. [부록 A. 버전 표](appendix_versions.md)
 11. [부록 B. 수동 수행 기준 문서](appendix_manual_refs.md)
 12. [부록 C. 용어집](appendix_glossary.md)
+13. [부록 D. 진단 로그 수집과 새 머신 재현 검증](appendix_diagnostics.md)

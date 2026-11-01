@@ -111,6 +111,7 @@
 **VM 시작 실패: `Could not open '...base.qcow2': Permission denied` (`Domain was defined but failed to start`)**
 
 - **발생 단계**: 1단계 (`terraform apply`). 풀, 네트워크, 볼륨, cloud-init 15개는 만들어지고 VM 4대만 실패.
+- **먼저 할 일**: 고치기 전에 `sudo bash scripts/collect-diag.sh` 로 로그를 수집 ([부록 D](appendix_diagnostics.md)).
 - **원인**: 환경. AppArmor의 VM별 허용 목록에 디스크 경로가 빠져서 QEMU가 기준 이미지를 열지 못함. (`journalctl -k` 에는 `DENIED` 가 보이지 않았음.)
 - **해결**: AppArmor를 켠 채로 `/etc/apparmor.d/local/abstractions/libvirt-qemu` 에 `/var/lib/libvirt/images/** rwk,` 한 줄을 추가하고 다시 `apply`. 임시 우회(`security_driver = "none"`)는 보안을 낮추므로 권장하지 않으며, 썼다면 `qemu.conf.bak` 으로 되돌립니다.
 - **참고**: [1단계](ch1_terraform_vm.md)
