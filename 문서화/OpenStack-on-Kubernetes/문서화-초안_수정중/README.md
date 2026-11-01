@@ -1,7 +1,5 @@
 # OpenInfra Lab Kit 가이드북
 
-0~4단계 수동 구축을 바탕으로 쓴 가이드북 원문입니다. GitHub에서는 그대로 읽히고, Sphinx(MyST)로 빌드하면 웹 문서가 됩니다.
-
 ## 읽는 순서
 
 [index.md](index.md) 의 목차를 따르세요. 용어가 어려우면 [부록 C. 용어집](appendix_glossary.md) 을 먼저 보세요.
