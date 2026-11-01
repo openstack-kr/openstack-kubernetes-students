@@ -1,4 +1,4 @@
-# OpenInfra Lab Kit 가이드북 (Markdown)
+# OpenInfra Lab Kit 가이드북
 
 0~4단계 수동 구축을 바탕으로 쓴 가이드북 원문입니다. GitHub에서는 그대로 읽히고, Sphinx(MyST)로 빌드하면 웹 문서가 됩니다.
 
