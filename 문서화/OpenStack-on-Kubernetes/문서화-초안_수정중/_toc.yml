@@ -1,0 +1,17 @@
+format: jb-book
+root: index
+chapters:
+  - file: overview
+  - file: ch0_prerequisites
+  - file: ch1_terraform_vm
+  - file: ch2_ansible
+  - file: ch3_kubernetes
+  - file: ch4_prereqs
+  - file: ch5_openstack
+  - file: ch6_verify
+  - file: ch7_troubleshooting
+  - file: appendix_versions
+  - file: appendix_manual_refs
+  - file: appendix_glossary
+  - file: appendix_glossary
+  - file: appendix_diagnostics
