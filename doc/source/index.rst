@@ -57,7 +57,7 @@ OpenStack & Kubernetes 운영 문서화 및 국제화
    glossary
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 1
 
    openstack-on-kubernetes/index
 
