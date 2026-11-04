@@ -38,7 +38,8 @@ Kubernetes 클러스터로 묶은 뒤, 그 위에 OpenStack을 설치합니다. 
    ch4_prereqs
    ch5_openstack
    ch6_verify
-   ch7_troubleshooting
+   ch7_horizon
+   ch8_troubleshooting
    appendix_versions
    appendix_manual_refs
    appendix_diagnostics

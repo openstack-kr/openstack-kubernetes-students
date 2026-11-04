@@ -7,7 +7,7 @@
     인프라 위에 올리는 방향으로 나뉩니다.
 
 .. toctree::
-   :maxdepth: 1
+   :maxdepth: 4
 
    openstack-on-kubernetes/index
    kubernetes-on-openstack/index
