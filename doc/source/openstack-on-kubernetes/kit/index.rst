@@ -9,198 +9,122 @@ Kubernetes 와 OpenStack 을 순서대로 구축하는 방법을 설명합니다
 구축 과정에서 실제로 겪은 일과 시행착오는 :doc:`../manual/index` 에 정리되어 있습니다.
 
 이 가이드에서 하는 일
-=====================
+------------------------------------------------------------------------------------------
 
-* 서버 환경을 점검하고 필요한 도구를 설치합니다.
-* libvirt/KVM 위에 노드 VM 4대를 만듭니다.
-* Kubespray 로 Kubernetes 클러스터를 구축합니다.
-* OpenStack-Helm 으로 OpenStack 핵심 서비스를 배포합니다.
-* 배포 상태와 서비스 간 연동을 확인합니다.
+베어메탈 호스트에 도구를 설치하고, 노드 VM 네 대를 생성한 뒤 Kubernetes와
+OpenStack을 배포합니다. 서비스 API 검증과 상태 수집은 배포 후 별도로 실행합니다.
+과거 수동 작업과 결과는 :doc:`../manual/index` 에서 읽습니다.
 
 대상 독자
-=========
+------------------------------------------------------------------------------------------
 
-OpenStack 과 Kubernetes 를 처음 접하며, 한 대의 서버에서 직접 구축해
-보고 싶은 입문자를 대상으로 합니다. Linux 터미널 사용에 익숙하면
-충분하며 두 시스템에 대한 사전 지식은 필요하지 않습니다.
+Linux 명령과 SSH 접속을 사용하며 OpenStack과 Kubernetes 구축 과정을 익히려는
+실습자를 대상으로 합니다. 도구의 역할은 :doc:`/foundations/lab-kit-tools` 를 참고하세요.
 
 구축 구조
-=========
+------------------------------------------------------------------------------------------
 
 .. code-block:: text
 
-   [0 환경 점검·도구 설치] → [1 Terraform+libvirt] → [2 Ansible]
-     → [3 Kubespray] → [4 선행 요소] → [5 OpenStack-Helm] → [6 검증]
+   Ubuntu 호스트
+     └─ libvirt / QEMU / KVM
+         ├─ cp            : Kubernetes 컨트롤 플레인과 etcd
+         ├─ ctrl-worker   : OpenStack 제어 서비스
+         ├─ compute-1     : OpenStack 컴퓨트 서비스
+         └─ compute-2     : OpenStack 컴퓨트 서비스
 
-.. list-table:: 단계와 실행 명령
+.. list-table:: 실행 순서
    :header-rows: 1
-   :widths: 10 35 25 30
 
    * - 단계
-     - 내용
-     - 도구
-     - 실행 명령
+     - 명령
+     - 작업
    * - 0
-     - 환경 점검, 도구 설치
-     - 쉘 스크립트
-     - ``make preflight``, ``make install``
+     - ``make stage-0``
+     - 호스트 사전 점검 → 도구 설치 → 설치 후 점검
    * - 1
-     - 노드 VM, 네트워크 생성
-     - Terraform + libvirt
      - ``make stage-1``
+     - VM 생성과 인벤토리 생성, 결과 점검
    * - 2
-     - 노드 사전 설정
-     - Ansible
      - ``make stage-2``
+     - Ansible로 VM 내부 설정
    * - 3
-     - Kubernetes 구축
-     - Kubespray
      - ``make stage-3``
+     - Kubespray로 Kubernetes 설치
    * - 4
-     - 선행 요소
-     - kubectl, Helm
      - ``make stage-4``
+     - 노드 라벨, 저장소, Helm 배포 준비
    * - 5
-     - OpenStack 배포
-     - OpenStack-Helm
      - ``make stage-5``
-   * - 6
-     - 검증
-     - kubectl, helm, openstack CLI
-     - ``make stage-6``, ``make verify``
+     - Horizon을 포함한 Helm 릴리스 12개 배포와 점검
+   * - 6에 해당하는 검증
+     - ``bash evaluation/verify-services.sh``
+     - 별도 서비스 검증
 
-전체를 한 번에 실행하려면 ``make up`` 을 사용합니다.
-
-.. note::
-   ``make`` 명령은 키트 구현 예정입니다. 정해진 대상은 ``preflight``, ``install``,
-   ``up``, ``stage-N`` (N 은 0~6), ``verify``, ``destroy`` 입니다.
-
-.. list-table:: 노드 구성
-   :header-rows: 1
-
-   * - 노드
-     - 역할
-     - vCPU
-     - 메모리
-     - 디스크 (thin)
-     - IP
-   * - cp
-     - Kubernetes 컨트롤 플레인
-     - 4
-     - 16GiB
-     - 60GB
-     - 192.168.100.10
-   * - ctrl-worker
-     - OpenStack 컨트롤 서비스
-     - 16
-     - 32GiB
-     - 120GB
-     - 192.168.100.11
-   * - compute-1
-     - 컴퓨트
-     - 10
-     - 32GiB
-     - 80GB
-     - 192.168.100.21
-   * - compute-2
-     - 컴퓨트
-     - 10
-     - 32GiB
-     - 80GB
-     - 192.168.100.22
-
-.. note::
-   사양은 시작점으로 정한 값이며 첫 설치 후 조정될 수 있습니다. IP 는 서버
-   안의 가상 네트워크(192.168.100.0/24)에서만 쓰이는 주소입니다. 노드 안에서
-   확인한 실제 값은 :doc:`infrastructure` 장에 있습니다.
+``make deploy`` 는 0~5단계를 실행합니다. ``make -j`` 로 병렬 실행하지 않습니다.
+``bash run-deploy.sh run-01`` 은 배포 출력과 시간을 ``logs/run-01`` 에 기록합니다.
+이미 같은 실행 번호의 폴더가 있으면 중단하므로 새 번호를 사용합니다.
+두 명령 모두 서비스 검증 스크립트를 자동 실행하지 않습니다.
+``make up``, ``make verify``, ``make stage-6``, ``make destroy`` 는 이 커밋에 없습니다.
 
 기준 버전
-=========
+------------------------------------------------------------------------------------------
 
-이 가이드의 모든 절차는 아래 버전으로 확인했습니다. 도구 버전은 저장소의
-``versions.env`` 한 곳에서 관리합니다.
+다음은 코드에 지정된 값입니다. 모든 버전이 하나의 파일에서 관리되는 것은 아닙니다.
 
-.. list-table::
+.. list-table:: 버전과 설정 위치
    :header-rows: 1
-   :widths: 30 40 30
 
-   * - 구분
-     - 항목
-     - 버전
-   * - OpenStack
-     - 릴리스
-     - 2026.1 (Gazpacho)
-   * -
-     - OpenStack-Helm
-     - 태그 ``2026.1.0`` (커밋 ``c665eedfa``)
+   * - 항목
+     - 값
+     - 위치
+   * - Terraform / libvirt provider
+     - 1.15.9 / 0.9.9
+     - ``versions.env``, ``stage1/terraform/versions.tf``
+   * - kubectl / Helm
+     - 1.35.4 / 3.18.4
+     - ``versions.env``
+   * - ansible-core / OpenStack CLI
+     - 2.18.19 / 10.5.0
+     - ``versions.env``
+   * - Kubespray
+     - v2.31.0, 짧은 커밋 ID ``1c9add4``
+     - ``versions.env`` 와 단계별 검사
    * - Kubernetes
-     - Kubernetes
      - 1.35.4
-   * -
-     - Kubespray
-     - v2.31.0 (커밋 ``1c9add4``)
-   * -
-     - 네트워크 플러그인
-     - Calico (Kubespray 기본값)
-   * -
-     - 컨테이너 런타임
-     - containerd 2.2.3
-   * - 구축 도구
-     - Terraform
-     - 1.15.9
-   * -
-     - libvirt provider (dmacvicar/libvirt)
-     - 0.9.9
-   * -
-     - ansible-core
-     - 2.18.19
-   * -
-     - Helm
-     - v3.18.4
-   * -
-     - kubectl
-     - v1.35.4
-   * -
-     - openstack CLI
-     - 10.5.0
-   * - OS
-     - 호스트 서버
-     - Ubuntu 24.04.1, 커널 6.8.0-51
-   * -
-     - 노드 VM
-     - Ubuntu 24.04.5, 커널 6.8.0-147 (cloud image 릴리스 20261017)
+     - ``stage3/inventory/k8s-cluster.yml`` 와 단계별 검사
+   * - 네트워크 / 런타임
+     - Calico / containerd
+     - ``stage3/inventory/k8s-cluster.yml``
+   * - OpenStack-Helm
+     - 2026.1.0, 커밋 ``c665eedfa3ae1b76a7e8438fffcb62aefaa30a46``
+     - ``stage4/chart-versions.env``
+   * - ingress-nginx 차트
+     - 4.8.3
+     - ``stage5/deploy.sh``
 
-.. note::
-   호스트와 노드 VM 은 Ubuntu 24.04 이지만 세부 버전이 다릅니다. OpenStack
-   차트의 세부 버전은 :doc:`openstack-deploy` 장의 표를 참고하세요.
+``versions.env`` 의 Kubernetes 값은 ``1.35`` 이지만 실제 설치 설정은 ``1.35.4`` 입니다.
+변경 시 설치 설정과 점검 스크립트의 기대값을 함께 대조합니다.
 
 범위와 한계
-===========
+------------------------------------------------------------------------------------------
 
-* 검증은 서비스 동작 확인(Keystone 토큰 발급, Glance 이미지 등록 등)까지
-  입니다. 사용자 인스턴스(VM) 부팅은 다루지 않습니다.
-* Kubespray 와 OpenStack-Helm 의 조합은 OpenStack-Helm 의 공식 검증
-  대상이 아닙니다. 이 가이드의 절차는 실제 설치로 확인한 결과입니다.
-* 노드가 VM 이므로 Nova 는 ``qemu`` 모드로 동작하며 성능에 한계가 있습니다.
-* 스토리지는 Ceph 대신 노드 디스크를 쓰는 ``local-path`` 입니다. 볼륨이 한
-  노드의 디스크에 있으므로 노드에 장애가 나면 데이터가 사라질 수 있습니다.
-* 외부 네트워크(``br-ex``)는 설정하지 않습니다. 노드 VM 의 네트워크 인터페이스가
-  하나뿐이라 건드리면 연결이 끊길 수 있기 때문입니다.
-* 서버 한 대로 구성한 실습용 환경입니다. 운영 환경에는 그대로 쓰지 않습니다.
-* Kubernetes 위에 OpenStack 을 올리는 구조만 다룹니다.
-* 환경 전제: 외부 시간 서버(UDP 123)와 패키지·이미지 저장소(80, 443)에 접속할
-  수 있어야 합니다.
+* 단일 물리 호스트 실습입니다. 호스트 장애를 견디는 구성이 아닙니다.
+* 노드 VM 생성에는 호스트 KVM을 사용하지만, Nova 사용자 VM 설정은 ``qemu`` 입니다.
+* 저장소는 노드 로컬 디스크를 사용하는 local-path입니다. 복제 스토리지가 아닙니다.
+* 검증 스크립트는 사용자 인스턴스를 부팅하거나 Floating IP 통신을 시험하지 않습니다.
+* Horizon 배포 및 Pod 점검은 웹 로그인과 인스턴스 생성 성공을 보장하지 않습니다.
+* 깨끗한 환경의 반복 구축, 재부팅 이후 동작은 별도의 실행 기록으로 입증해야 합니다.
 
 이 가이드를 읽는 방법
-=====================
+------------------------------------------------------------------------------------------
 
-각 장은 목표 → 선행 조건 → 수행 → 확인 → 자주 만나는 오류 순서로
-구성됩니다. 각 단계는 ``make stage-N`` 한 번으로 실행할 수도 있고,
-장에 나온 명령을 직접 입력하며 따라 할 수도 있습니다.
+사전 준비부터 순서대로 읽고, 단계별 점검을 통과한 뒤 다음 단계로 이동합니다.
+실패한 환경에서 전체 배포를 다시 실행하면 기존 VM 검사에 막힐 수 있습니다.
+재실행 전 현재 자원과 실패 위치를 확인하세요.
 
 .. toctree::
    :maxdepth: 2
-   :numbered:
 
    prerequisites
    infrastructure
@@ -209,3 +133,11 @@ OpenStack 과 Kubernetes 를 처음 접하며, 한 대의 서버에서 직접 �
    openstack-deploy
    verification
    troubleshooting
+
+
+구현 근거
+------------------------------------------------------------------------------------------
+
+* `Makefile <https://github.com/mayura13/openstack_project/tree/de7f93327e089368c8ad8a63436075f32a3ae17b/Makefile>`_
+* `run-deploy.sh <https://github.com/mayura13/openstack_project/tree/de7f93327e089368c8ad8a63436075f32a3ae17b/run-deploy.sh>`_
+* `versions.env <https://github.com/mayura13/openstack_project/tree/de7f93327e089368c8ad8a63436075f32a3ae17b/versions.env>`_

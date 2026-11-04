@@ -129,3 +129,57 @@ Horizon 실습은 웹 UI를 통한 사용자 자원 생성·확인 단계로 이
 * 팀 자료 「OpenInfra Lab Kit 구현 도구의 역할」, 1쪽, 0~6단계 역할 표
 * `QEMU와 가상화 기반 <https://www.qemu.org/docs/master/system/introduction.html>`_
 * `OpenStack-Helm <https://docs.openstack.org/openstack-helm/latest/>`_
+
+
+현재 구현 코드에서의 연결
+------------------------------------------------------------------------------------------
+
+구현 저장소 ``mayura13/openstack_project`` 의 기준 커밋은
+``de7f93327e089368c8ad8a63436075f32a3ae17b`` 입니다.
+PDF의 단계별 역할을 다음 코드와 연결해서 읽을 수 있습니다.
+
+.. list-table:: 역할과 구현 파일
+   :header-rows: 1
+
+   * - 단계
+     - 구현 위치
+     - 역할을 이해할 때 볼 내용
+   * - 0
+     - ``stage0/``
+     - 호스트 검사와 도구 설치, Python 가상환경 분리
+   * - 1
+     - ``stage1/terraform/``, ``common/generate-inventory.py``
+     - Terraform이 생성한 노드 정보를 Ansible 인벤토리로 전달
+   * - 2
+     - ``stage2/prepare-nodes.yml``
+     - swap, 커널 모듈·파라미터, hosts, Netplan 설정
+   * - 3
+     - ``stage3/``
+     - Kubespray 인벤토리 준비와 cluster.yml 실행
+   * - 4
+     - ``stage4/``
+     - kubectl로 라벨 적용, Kubespray로 local-path 구성, Helm 준비
+   * - 5
+     - ``stage5/deploy.sh``, ``stage5/values/``
+     - Horizon을 포함한 12개 릴리스의 차트와 설정 조합
+   * - 6에 해당하는 검증
+     - ``evaluation/``
+     - kubectl port-forward, OpenStack CLI와 curl로 API 검사 및 상태 수집
+
+Helm은 Kubernetes 애플리케이션 배포 도구이고, 이 구현의 단계 전체를 이어 주는
+진입점은 Makefile과 Shell입니다. ``make deploy`` 는 0~5단계만 실행합니다.
+검증 스크립트는 별도로 실행하며 사용자 인스턴스 부팅까지 시험하지 않습니다.
+
+PDF의 4단계 역할을 구체화하면 kubectl은 노드 라벨과 네임스페이스를,
+Kubespray는 local-path 구성을, Helm 관련 준비는 차트 배포 도구와 저장소를 담당합니다.
+실행법과 알려진 코드 불일치는 :doc:`/openstack-on-kubernetes/kit/index` 와
+:doc:`/openstack-on-kubernetes/kit/troubleshooting` 에서 확인합니다.
+
+
+구현 근거
+------------------------------------------------------------------------------------------
+
+* `Makefile <https://github.com/mayura13/openstack_project/tree/de7f93327e089368c8ad8a63436075f32a3ae17b/Makefile>`_
+* `stage2/prepare-nodes.yml <https://github.com/mayura13/openstack_project/tree/de7f93327e089368c8ad8a63436075f32a3ae17b/stage2/prepare-nodes.yml>`_
+* `stage4/configure-storage.sh <https://github.com/mayura13/openstack_project/tree/de7f93327e089368c8ad8a63436075f32a3ae17b/stage4/configure-storage.sh>`_
+* `evaluation/verify-services.sh <https://github.com/mayura13/openstack_project/tree/de7f93327e089368c8ad8a63436075f32a3ae17b/evaluation/verify-services.sh>`_
