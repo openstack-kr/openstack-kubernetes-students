@@ -50,7 +50,7 @@ containerd 사용 여부와 시스템 Pod의 표시 상태를 확인합니다.
 구현 근거
 ------------------------------------------------------------------------------------------
 
-* `stage3/prepare.sh <https://github.com/mayura13/openstack_project/tree/de7f93327e089368c8ad8a63436075f32a3ae17b/stage3/prepare.sh>`_
-* `stage3/deploy.sh <https://github.com/mayura13/openstack_project/tree/de7f93327e089368c8ad8a63436075f32a3ae17b/stage3/deploy.sh>`_
-* `stage3/postcheck.sh <https://github.com/mayura13/openstack_project/tree/de7f93327e089368c8ad8a63436075f32a3ae17b/stage3/postcheck.sh>`_
-* `stage3/inventory/k8s-cluster.yml <https://github.com/mayura13/openstack_project/tree/de7f93327e089368c8ad8a63436075f32a3ae17b/stage3/inventory/k8s-cluster.yml>`_
+* `stage3/prepare.sh <https://github.com/mayura13/openstack_project/tree/2bc695ebd1eb12059326849c82fe494dcbf48bdb/stage3/prepare.sh>`_
+* `stage3/deploy.sh <https://github.com/mayura13/openstack_project/tree/2bc695ebd1eb12059326849c82fe494dcbf48bdb/stage3/deploy.sh>`_
+* `stage3/postcheck.sh <https://github.com/mayura13/openstack_project/tree/2bc695ebd1eb12059326849c82fe494dcbf48bdb/stage3/postcheck.sh>`_
+* `stage3/inventory/k8s-cluster.yml <https://github.com/mayura13/openstack_project/tree/2bc695ebd1eb12059326849c82fe494dcbf48bdb/stage3/inventory/k8s-cluster.yml>`_

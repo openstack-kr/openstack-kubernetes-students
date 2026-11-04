@@ -12,7 +12,7 @@ Kubernetes 와 OpenStack 을 순서대로 구축하는 방법을 설명합니다
 ------------------------------------------------------------------------------------------
 
 베어메탈 호스트에 도구를 설치하고, 노드 VM 네 대를 생성한 뒤 Kubernetes와
-OpenStack을 배포합니다. 서비스 API 검증과 상태 수집은 배포 후 별도로 실행합니다.
+OpenStack을 배포합니다. 서비스 API 검증과 상태 수집은 6단계에서 실행하며 전체 배포에도 포함됩니다.
 과거 수동 작업과 결과는 :doc:`../manual/index` 에서 읽습니다.
 
 대상 독자
@@ -57,15 +57,17 @@ Linux 명령과 SSH 접속을 사용하며 OpenStack과 Kubernetes 구축 과정
    * - 5
      - ``make stage-5``
      - Horizon을 포함한 Helm 릴리스 12개 배포와 점검
-   * - 6에 해당하는 검증
-     - ``bash evaluation/verify-services.sh``
-     - 별도 서비스 검증
+   * - 6
+     - ``make stage-6``
+     - 서비스 검증과 최종 상태 수집
 
-``make deploy`` 는 0~5단계를 실행합니다. ``make -j`` 로 병렬 실행하지 않습니다.
-``bash run-deploy.sh run-01`` 은 배포 출력과 시간을 ``logs/run-01`` 에 기록합니다.
+``make deploy`` 는 0~6단계를 실행하며 마지막에 서비스 검증과 상태 수집을 수행합니다.
+``make -j`` 로 병렬 실행하지 않습니다.
+``bash run-deploy.sh run-01`` 은 전체 실행 출력과 시간을 ``logs/run-01`` 에 기록합니다.
 이미 같은 실행 번호의 폴더가 있으면 중단하므로 새 번호를 사용합니다.
-두 명령 모두 서비스 검증 스크립트를 자동 실행하지 않습니다.
-``make up``, ``make verify``, ``make stage-6``, ``make destroy`` 는 이 커밋에 없습니다.
+다만 Makefile의 6단계 결과 경로는 ``logs/evaluation`` 으로 고정되어 있어 실행 번호별로
+자동 분리되지 않습니다. 회차별 보관 방법은 :doc:`verification` 을 참고하세요.
+``make up``, ``make verify``, ``make destroy`` 는 이 커밋에 없습니다.
 
 기준 버전
 ------------------------------------------------------------------------------------------
@@ -138,6 +140,6 @@ Linux 명령과 SSH 접속을 사용하며 OpenStack과 Kubernetes 구축 과정
 구현 근거
 ------------------------------------------------------------------------------------------
 
-* `Makefile <https://github.com/mayura13/openstack_project/tree/de7f93327e089368c8ad8a63436075f32a3ae17b/Makefile>`_
-* `run-deploy.sh <https://github.com/mayura13/openstack_project/tree/de7f93327e089368c8ad8a63436075f32a3ae17b/run-deploy.sh>`_
-* `versions.env <https://github.com/mayura13/openstack_project/tree/de7f93327e089368c8ad8a63436075f32a3ae17b/versions.env>`_
+* `Makefile <https://github.com/mayura13/openstack_project/tree/2bc695ebd1eb12059326849c82fe494dcbf48bdb/Makefile>`_
+* `run-deploy.sh <https://github.com/mayura13/openstack_project/tree/2bc695ebd1eb12059326849c82fe494dcbf48bdb/run-deploy.sh>`_
+* `versions.env <https://github.com/mayura13/openstack_project/tree/2bc695ebd1eb12059326849c82fe494dcbf48bdb/versions.env>`_

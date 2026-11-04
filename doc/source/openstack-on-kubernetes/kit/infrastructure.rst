@@ -50,12 +50,6 @@ Terraform 리소스 식별자 ``libvirt_pool.openinfra`` 의 ``openinfra`` 는 �
 1단계 실행
 ------------------------------------------------------------------------------------------
 
-.. warning::
-
-   기준 커밋의 사후 점검은 풀 이름을 ``openinfra`` 로 조회합니다.
-   생성 코드와 일치하지 않아 정상 생성 후에도 실패할 수 있습니다.
-   :doc:`troubleshooting` 의 불일치를 구현 담당자와 먼저 수정·확인하세요.
-
 .. code-block:: bash
 
    make stage-1
@@ -63,6 +57,14 @@ Terraform 리소스 식별자 ``libvirt_pool.openinfra`` 의 ``openinfra`` 는 �
 ``stage1/apply.sh`` 는 사전 점검, 이미지·SSH 키 준비, AppArmor 설정을 거쳐
 ``stage1/terraform`` 에서 init, fmt 검사, validate, plan, apply를 실행합니다.
 적용은 저장한 계획 파일을 사용하며 병렬도를 1로 제한합니다.
+VM의 CPU 모드는 ``host-passthrough``, 머신 유형은 ``q35``, 아키텍처는
+``x86_64`` 이며 디스크와 CD-ROM 부팅 순서를 지정합니다.
+호스트 CPU 기능을 게스트에 노출하여 Calico의 x86-64-v2 호환성 문제에 대응하려는 설정입니다.
+실제 호스트의 CPU 지원 여부와 설치 결과는 별도로 확인합니다.
+
+Terraform 적용 후에는 네 VM의 상태를 확인합니다. 이미 실행 중이면 유지하고,
+``shut off`` 상태이면 시작하며, 다른 상태이면 오류로 중단합니다.
+그 뒤 인벤토리를 생성합니다.
 
 Ubuntu noble 이미지 릴리스 ``20261017`` 을 다운로드하고 스크립트의 SHA256과 비교합니다.
 cloud-init은 ``kit`` 계정, SSH 키, 호스트명을 설정합니다.
@@ -79,6 +81,10 @@ Terraform 출력으로 ``stage2/inventory.ini`` 와 ``stage3/inventory/inventory
    virsh net-info openinfra-lab
    virsh pool-info openinfra-lab
    ssh -i ~/.ssh/id_vm_ed25519 kit@192.168.100.10 hostname
+
+1단계 사후 점검의 실제 풀 조회는 ``openinfra-lab`` 으로 수정되었습니다.
+다만 출력 메시지에는 이전 이름이 남아 있습니다. 초기화 스크립트의 수동 정리 분기는
+아직 다르므로 :doc:`troubleshooting` 을 참고하세요.
 
 2단계 실행
 ------------------------------------------------------------------------------------------
@@ -102,8 +108,8 @@ DNS 검색 도메인 전달을 제어하기 위해 Netplan의
 구현 근거
 ------------------------------------------------------------------------------------------
 
-* `stage1/apply.sh <https://github.com/mayura13/openstack_project/tree/de7f93327e089368c8ad8a63436075f32a3ae17b/stage1/apply.sh>`_
-* `stage1/terraform/main.tf <https://github.com/mayura13/openstack_project/tree/de7f93327e089368c8ad8a63436075f32a3ae17b/stage1/terraform/main.tf>`_
-* `stage1/postcheck.sh <https://github.com/mayura13/openstack_project/tree/de7f93327e089368c8ad8a63436075f32a3ae17b/stage1/postcheck.sh>`_
-* `common/generate-inventory.py <https://github.com/mayura13/openstack_project/tree/de7f93327e089368c8ad8a63436075f32a3ae17b/common/generate-inventory.py>`_
-* `stage2/prepare-nodes.yml <https://github.com/mayura13/openstack_project/tree/de7f93327e089368c8ad8a63436075f32a3ae17b/stage2/prepare-nodes.yml>`_
+* `stage1/apply.sh <https://github.com/mayura13/openstack_project/tree/2bc695ebd1eb12059326849c82fe494dcbf48bdb/stage1/apply.sh>`_
+* `stage1/terraform/main.tf <https://github.com/mayura13/openstack_project/tree/2bc695ebd1eb12059326849c82fe494dcbf48bdb/stage1/terraform/main.tf>`_
+* `stage1/postcheck.sh <https://github.com/mayura13/openstack_project/tree/2bc695ebd1eb12059326849c82fe494dcbf48bdb/stage1/postcheck.sh>`_
+* `common/generate-inventory.py <https://github.com/mayura13/openstack_project/tree/2bc695ebd1eb12059326849c82fe494dcbf48bdb/common/generate-inventory.py>`_
+* `stage2/prepare-nodes.yml <https://github.com/mayura13/openstack_project/tree/2bc695ebd1eb12059326849c82fe494dcbf48bdb/stage2/prepare-nodes.yml>`_

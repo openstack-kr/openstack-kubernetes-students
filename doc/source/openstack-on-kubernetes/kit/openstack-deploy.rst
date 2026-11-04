@@ -11,10 +11,9 @@ OpenStack 배포 (5단계: OpenStack-Helm)
 
 .. warning::
 
-   기준 커밋의 ``stage5/preflight.sh`` 는 values 파일을 11개로 검사하지만
-   ``stage5/values`` 에는 Horizon을 포함해 12개가 있습니다.
-   따라서 그대로 실행하면 사전 점검에서 중단될 수 있습니다.
-   파일을 임의로 삭제하지 말고 배포 대상과 검사 기준을 함께 수정해야 합니다.
+  사전 점검의 values 파일 개수 기준은 Horizon을 포함한 **12개** 로 수정되었습니다.
+  성공 메시지에는 아직 ``11 Stage 5 values files found`` 라는 이전 문구가 남아 있지만
+  실제 비교 조건은 12개입니다. 파일을 삭제하여 메시지의 숫자에 맞추지 않습니다.
 
 노드 Ready, ``openstack`` 네임스페이스, ``general`` 스토리지클래스와
 노드 라벨을 확인합니다. 차트의 기본값과 저장소의 values를 함께 검토합니다.
@@ -40,10 +39,12 @@ OpenStack-Helm 차트 버전은 ``stage4/chart-versions.env`` 에서 읽고
 이미지 설정에는 고정 태그와 digest가 사용됩니다. 실제 적용된 전체 이미지 목록은
 배포 후 :doc:`verification` 의 상태 수집 결과로 확인합니다.
 
-배포 스크립트는 ``helm upgrade --install`` 을 호출합니다.
-모든 Pod가 Ready가 될 때까지 자동 대기하는 ``--wait`` 옵션은 사용하지 않습니다.
-명령 제출 직후의 점검은 아직 시작 중인 Pod 때문에 실패할 수 있으므로
-이벤트와 준비 상태를 보고 실제 실패인지 판단합니다.
+배포 스크립트는 ``helm upgrade --install`` 을 호출하며 Helm의 ``--wait`` 옵션은
+사용하지 않습니다. 대신 ``make stage-5`` 는 배포 후 ``stage5/wait-ready.sh`` 를
+실행하여 ``postcheck.sh`` 가 통과할 때까지 약 30초 간격으로 재점검합니다.
+제한값은 1200초(20분)이며, 개별 점검 명령 자체의 실행 시간까지 강제로 제한하는
+방식은 아니므로 실제 종료 시각이 정확히 20분으로 보장되지는 않습니다.
+제한을 넘기면 실패로 끝납니다. 이벤트와 컨테이너 로그를 확인한 뒤 재점검합니다.
 
 배포 확인
 ------------------------------------------------------------------------------------------
@@ -59,14 +60,15 @@ OpenStack-Helm 차트 버전은 ``stage4/chart-versions.env`` 에서 읽고
 ingress 컨트롤러, 컴퓨트 두 노드의 libvirt와 nova-compute, Nova의 ``virt_type=qemu``,
 Horizon Pod와 ``horizon-int`` 의 80번 포트를 확인합니다.
 이 점검만으로 API 기능이나 웹 로그인 성공을 확정하지 않습니다.
-다음 :doc:`verification` 에서 서비스 동작을 별도로 검사합니다.
+전체 배포는 다음 6단계 검증으로 이어집니다. 5단계만 실행했다면
+:doc:`verification` 의 ``make stage-6`` 으로 서비스 동작과 최종 상태를 확인합니다.
 
 
 구현 근거
 ------------------------------------------------------------------------------------------
 
-* `stage5/preflight.sh <https://github.com/mayura13/openstack_project/tree/de7f93327e089368c8ad8a63436075f32a3ae17b/stage5/preflight.sh>`_
-* `stage5/deploy.sh <https://github.com/mayura13/openstack_project/tree/de7f93327e089368c8ad8a63436075f32a3ae17b/stage5/deploy.sh>`_
-* `stage5/postcheck.sh <https://github.com/mayura13/openstack_project/tree/de7f93327e089368c8ad8a63436075f32a3ae17b/stage5/postcheck.sh>`_
-* `stage5/values <https://github.com/mayura13/openstack_project/tree/de7f93327e089368c8ad8a63436075f32a3ae17b/stage5/values>`_
-* `stage4/chart-versions.env <https://github.com/mayura13/openstack_project/tree/de7f93327e089368c8ad8a63436075f32a3ae17b/stage4/chart-versions.env>`_
+* `stage5/preflight.sh <https://github.com/mayura13/openstack_project/tree/2bc695ebd1eb12059326849c82fe494dcbf48bdb/stage5/preflight.sh>`_
+* `stage5/deploy.sh <https://github.com/mayura13/openstack_project/tree/2bc695ebd1eb12059326849c82fe494dcbf48bdb/stage5/deploy.sh>`_
+* `stage5/postcheck.sh <https://github.com/mayura13/openstack_project/tree/2bc695ebd1eb12059326849c82fe494dcbf48bdb/stage5/postcheck.sh>`_
+* `stage5/values <https://github.com/mayura13/openstack_project/tree/2bc695ebd1eb12059326849c82fe494dcbf48bdb/stage5/values>`_
+* `stage4/chart-versions.env <https://github.com/mayura13/openstack_project/tree/2bc695ebd1eb12059326849c82fe494dcbf48bdb/stage4/chart-versions.env>`_

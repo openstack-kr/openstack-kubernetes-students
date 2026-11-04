@@ -15,8 +15,12 @@ Kubernetes 설치 후 OpenStack 서비스의 배치 조건과 저장소를 준�
 
 준비, 노드 설정, 저장소 설정, 사후 점검을 순서대로 실행합니다.
 
-* cp의 관리자 kubeconfig를 호스트 ``~/.kube/config`` 로 가져옵니다.
-  기존 파일이 덮어써지므로 다른 클러스터 설정을 보관하고 있다면 먼저 백업합니다.
+* cp의 관리자 kubeconfig를 임시 파일로 가져온 뒤 파일이 비어 있지 않은지와
+  ``kubectl config view`` 로 읽을 수 있는지 확인합니다. 실패하면 기존 설정을 유지하고
+  중단합니다. 성공하면 권한을 600으로 설정하고 ``~/.kube/config`` 를 교체합니다.
+  다른 클러스터 설정을 보관하고 있다면 먼저 백업합니다.
+* 새 kubeconfig를 준비한 다음 4단계 사전 점검을 수행합니다.
+  파일 형식 검사 성공과 실제 API 접속 성공은 서로 다른 확인 항목입니다.
 * OpenStack-Helm 저장소와 ``osh`` Helm 플러그인을 준비합니다.
 * ``~/openstack-helm`` 을 지정 커밋에 맞춥니다. 다른 커밋이나 일반 폴더이면
   제거 후 다시 받을 수 있으므로 이 경로의 개인 수정본은 미리 별도 보관합니다.
@@ -61,7 +65,7 @@ API, 네임스페이스, 라벨, 저장소, Helm 준비 상태를 확인한 뒤
 구현 근거
 ------------------------------------------------------------------------------------------
 
-* `stage4/prepare.sh <https://github.com/mayura13/openstack_project/tree/de7f93327e089368c8ad8a63436075f32a3ae17b/stage4/prepare.sh>`_
-* `stage4/configure-nodes.sh <https://github.com/mayura13/openstack_project/tree/de7f93327e089368c8ad8a63436075f32a3ae17b/stage4/configure-nodes.sh>`_
-* `stage4/configure-storage.sh <https://github.com/mayura13/openstack_project/tree/de7f93327e089368c8ad8a63436075f32a3ae17b/stage4/configure-storage.sh>`_
-* `stage4/postcheck.sh <https://github.com/mayura13/openstack_project/tree/de7f93327e089368c8ad8a63436075f32a3ae17b/stage4/postcheck.sh>`_
+* `stage4/prepare.sh <https://github.com/mayura13/openstack_project/tree/2bc695ebd1eb12059326849c82fe494dcbf48bdb/stage4/prepare.sh>`_
+* `stage4/configure-nodes.sh <https://github.com/mayura13/openstack_project/tree/2bc695ebd1eb12059326849c82fe494dcbf48bdb/stage4/configure-nodes.sh>`_
+* `stage4/configure-storage.sh <https://github.com/mayura13/openstack_project/tree/2bc695ebd1eb12059326849c82fe494dcbf48bdb/stage4/configure-storage.sh>`_
+* `stage4/postcheck.sh <https://github.com/mayura13/openstack_project/tree/2bc695ebd1eb12059326849c82fe494dcbf48bdb/stage4/postcheck.sh>`_

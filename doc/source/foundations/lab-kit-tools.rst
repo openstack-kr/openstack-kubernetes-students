@@ -135,7 +135,7 @@ Horizon 실습은 웹 UI를 통한 사용자 자원 생성·확인 단계로 이
 ------------------------------------------------------------------------------------------
 
 구현 저장소 ``mayura13/openstack_project`` 의 기준 커밋은
-``de7f93327e089368c8ad8a63436075f32a3ae17b`` 입니다.
+``2bc695ebd1eb12059326849c82fe494dcbf48bdb`` 입니다.
 PDF의 단계별 역할을 다음 코드와 연결해서 읽을 수 있습니다.
 
 .. list-table:: 역할과 구현 파일
@@ -162,13 +162,14 @@ PDF의 단계별 역할을 다음 코드와 연결해서 읽을 수 있습니다
    * - 5
      - ``stage5/deploy.sh``, ``stage5/values/``
      - Horizon을 포함한 12개 릴리스의 차트와 설정 조합
-   * - 6에 해당하는 검증
-     - ``evaluation/``
+   * - 6. 검증·상태 수집
+     - ``stage6/``
      - kubectl port-forward, OpenStack CLI와 curl로 API 검사 및 상태 수집
 
 Helm은 Kubernetes 애플리케이션 배포 도구이고, 이 구현의 단계 전체를 이어 주는
-진입점은 Makefile과 Shell입니다. ``make deploy`` 는 0~5단계만 실행합니다.
-검증 스크립트는 별도로 실행하며 사용자 인스턴스 부팅까지 시험하지 않습니다.
+진입점은 Makefile과 Shell입니다. ``make deploy`` 는 0~6단계를 실행합니다.
+``make stage-6`` 는 서비스 검증과 상태 수집을 실행하며 사용자 인스턴스 부팅까지
+시험하지 않습니다. 검증 결과의 기본 저장 경로는 ``logs/evaluation`` 입니다.
 
 PDF의 4단계 역할을 구체화하면 kubectl은 노드 라벨과 네임스페이스를,
 Kubespray는 local-path 구성을, Helm 관련 준비는 차트 배포 도구와 저장소를 담당합니다.
@@ -179,7 +180,7 @@ Kubespray는 local-path 구성을, Helm 관련 준비는 차트 배포 도구와
 구현 근거
 ------------------------------------------------------------------------------------------
 
-* `Makefile <https://github.com/mayura13/openstack_project/tree/de7f93327e089368c8ad8a63436075f32a3ae17b/Makefile>`_
-* `stage2/prepare-nodes.yml <https://github.com/mayura13/openstack_project/tree/de7f93327e089368c8ad8a63436075f32a3ae17b/stage2/prepare-nodes.yml>`_
-* `stage4/configure-storage.sh <https://github.com/mayura13/openstack_project/tree/de7f93327e089368c8ad8a63436075f32a3ae17b/stage4/configure-storage.sh>`_
-* `evaluation/verify-services.sh <https://github.com/mayura13/openstack_project/tree/de7f93327e089368c8ad8a63436075f32a3ae17b/evaluation/verify-services.sh>`_
+* `Makefile <https://github.com/mayura13/openstack_project/tree/2bc695ebd1eb12059326849c82fe494dcbf48bdb/Makefile>`_
+* `stage2/prepare-nodes.yml <https://github.com/mayura13/openstack_project/tree/2bc695ebd1eb12059326849c82fe494dcbf48bdb/stage2/prepare-nodes.yml>`_
+* `stage4/configure-storage.sh <https://github.com/mayura13/openstack_project/tree/2bc695ebd1eb12059326849c82fe494dcbf48bdb/stage4/configure-storage.sh>`_
+* `stage6/verify-services.sh <https://github.com/mayura13/openstack_project/tree/2bc695ebd1eb12059326849c82fe494dcbf48bdb/stage6/verify-services.sh>`_

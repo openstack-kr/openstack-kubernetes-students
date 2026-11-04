@@ -3,29 +3,45 @@
 ============
 검증 (6단계)
 ============
-.. warning::
-
-   이 장은 구현된 검증 스크립트의 실행 방법과 검사 범위를 설명합니다.
-   실제 환경에서의 검증 성공 결과를 보고하는 문서는 아닙니다.
-   실행 후 성공·실패 여부와 로그를 별도로 기록합니다.
-
-.. _verification:
-
-검증과 상태 수집 (6단계에 해당하는 별도 실행)
-==========================================================================================
-
 배포 점검 후 API 기능과 비교용 최종 상태를 확인합니다.
-``make stage-6`` 나 ``make verify`` 대상은 없으며 아래 스크립트를 직접 실행합니다.
+``make stage-6`` 는 서비스 검증에 이어 상태 수집을 실행합니다.
+``make deploy`` 에도 이 단계가 포함되어 있으므로 전체 배포가 성공했다면
+같은 검증을 바로 다시 실행할 필요는 없습니다. ``make verify`` 대상은 없습니다.
+
+.. note::
+
+   이 장은 코드에 구현된 검사와 실행 방법을 설명합니다.
+   해당 커밋으로 실제 서버의 전체 구축·검증이 성공했다는 보고서는 아닙니다.
+   실행 후 종료 코드와 로그로 결과를 기록합니다.
+
+6단계 실행과 저장 위치
+------------------------------------------------------------------------------------------
+
+5단계까지 완료한 환경에서 다음 명령을 실행합니다.
+
+.. code-block:: bash
+
+   make stage-6
+
+서비스 검증은 ``logs/evaluation/verify``, 상태 수집은
+``logs/evaluation/final-state`` 에 결과 파일을 기록합니다.
+서비스 검증이 실패하면 Make가 중단되어 다음 상태 수집은 실행되지 않습니다.
+이 경로는 실행 번호별로 자동 분리되지 않으므로 이전 결과를 별도 보관합니다.
+
+회차별 폴더를 직접 지정하거나 각 작업을 따로 실행하려면 아래 명령을 사용합니다.
+검증의 테스트 자원 생성·삭제가 다시 수행되므로 단순히 로그를 복사하기 위해
+재실행하지는 않습니다.
 
 서비스 동작 검증
 ------------------------------------------------------------------------------------------
 
 .. code-block:: bash
 
-   bash evaluation/verify-services.sh logs/run-01/verify
+   bash stage6/verify-services.sh logs/run-01/verify
 
-``run-01`` 은 실제 배포 기록 번호와 맞춥니다.
-인자를 생략하면 ``logs/verify`` 를 사용합니다.
+``run-01`` 은 실제 배포 기록 번호와 맞추고 회차별로 다른 폴더를 사용합니다.
+직접 실행할 때 인자를 생략하면 ``logs/verify`` 를 사용합니다.
+Makefile을 통한 실행은 위에 설명한 ``logs/evaluation/verify`` 를 명시적으로 전달합니다.
 스크립트는 Kubernetes Secret에서 인증 정보를 읽고 로컬 port-forward를 통해 API에
 접속합니다. OpenStack CLI는 ``~/venv-openstack/bin/openstack`` 을 사용합니다.
 
@@ -58,8 +74,9 @@ port-forward 정리를 시도합니다. 실패 후에는 잔여 자원도 확인
 
 .. code-block:: bash
 
-   bash evaluation/collect-state.sh logs/run-01/final-state
+   bash stage6/collect-state.sh logs/run-01/final-state
 
+앞의 서비스 검증이 성공한 것을 확인한 뒤 상태 수집을 실행합니다.
 노드, Pod 상태별 개수, Helm 릴리스, 컨테이너 이미지, OpenStack 서비스와
 엔드포인트, Nova 컴퓨트 서비스, Placement 자원 제공자 정보를 파일로 남깁니다.
 이미지 목록은 Pod 명세의 이미지 문자열이며 실제 실행 이미지 digest를 모두 검증한
@@ -79,8 +96,9 @@ port-forward 정리를 시도합니다. 실패 후에는 잔여 자원도 확인
 새 환경 반복 구축, 재부팅, 사용자 인스턴스 부팅, Floating IP, Horizon 로그인은
 해당 시험을 실제 수행한 뒤 결과를 추가합니다.
 
+
 구현 근거
 ------------------------------------------------------------------------------------------
 
-* `evaluation/verify-services.sh <https://github.com/mayura13/openstack_project/tree/de7f93327e089368c8ad8a63436075f32a3ae17b/evaluation/verify-services.sh>`_
-* `evaluation/collect-state.sh <https://github.com/mayura13/openstack_project/tree/de7f93327e089368c8ad8a63436075f32a3ae17b/evaluation/collect-state.sh>`_
+* `stage6/verify-services.sh <https://github.com/mayura13/openstack_project/tree/2bc695ebd1eb12059326849c82fe494dcbf48bdb/stage6/verify-services.sh>`_
+* `stage6/collect-state.sh <https://github.com/mayura13/openstack_project/tree/2bc695ebd1eb12059326849c82fe494dcbf48bdb/stage6/collect-state.sh>`_
