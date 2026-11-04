@@ -42,7 +42,7 @@ libvirt provider는 ``dmacvicar/libvirt`` 버전 ``0.9.9`` 입니다.
    terraform apply tfplan1        # 실제로 만들기
 
 이번 구성의 리소스는 총 19개입니다. 처음에는 디스크 등의 리소스가 생성된 뒤 VM 시작에서
-``Permission denied`` 가 발생했습니다. 같은 오류가 나면 :doc:`ch7_troubleshooting` 의 권한 점검을 먼저 확인합니다.
+``Permission denied`` 가 발생했습니다. 같은 오류가 나면 :doc:`ch8_troubleshooting` 의 권한 점검을 먼저 확인합니다.
 
 .. code:: bash
 
