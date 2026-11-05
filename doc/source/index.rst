@@ -37,7 +37,7 @@ OpenStack & Kubernetes 운영 문서화 및 국제화
    foundations/index
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 5
 
    integration-patterns
 
@@ -56,10 +56,6 @@ OpenStack & Kubernetes 운영 문서화 및 국제화
 
    glossary
 
-.. toctree::
-   :maxdepth: 1
-
-   openstack-on-kubernetes/index
 
 색인
 ====
