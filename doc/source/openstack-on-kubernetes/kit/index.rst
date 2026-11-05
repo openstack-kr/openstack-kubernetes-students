@@ -114,19 +114,43 @@ Linux 명령과 SSH 접속을 사용하며 OpenStack과 Kubernetes 구축 과정
      - ``versions.env`` 와 단계별 검사
    * - Kubernetes
      - 1.35.4
-     - ``stage3/inventory/k8s-cluster.yml`` 와 단계별 검사
-   * - 네트워크 / 런타임
-     - Calico / containerd
-     - ``stage3/inventory/k8s-cluster.yml``
-   * - OpenStack-Helm
-     - 2026.1.0, 커밋 ``c665eedfa3ae1b76a7e8438fffcb62aefaa30a46``
-     - ``stage4/chart-versions.env``
-   * - ingress-nginx 차트
-     - 4.8.3
-     - ``stage5/deploy.sh``
+   * -
+     - Kubespray
+     - v2.31.0 (커밋 ``1c9add4``)
+   * -
+     - 네트워크 플러그인
+     - Calico (Kubespray 기본값)
+   * -
+     - 컨테이너 런타임
+     - containerd 2.2.3
+   * - 구축 도구
+     - Terraform
+     - 1.15.9
+   * -
+     - libvirt provider (dmacvicar/libvirt)
+     - 0.9.9
+   * -
+     - ansible-core
+     - 2.18.20
+   * -
+     - Helm
+     - v3.18.4
+   * -
+     - kubectl
+     - v1.35.4
+   * -
+     - openstack CLI
+     - 10.5.0
+   * - OS
+     - 호스트 서버
+     - Ubuntu 24.04.1, 커널 6.8.0-51
+   * -
+     - 노드 VM
+     - Ubuntu 24.04.5, 커널 6.8.0-147 (cloud image 릴리스 20261017)
 
-``versions.env`` 의 Kubernetes 값은 ``1.35`` 이지만 실제 설치 설정은 ``1.35.4`` 입니다.
-변경 시 설치 설정과 점검 스크립트의 기대값을 함께 대조합니다.
+.. note::
+   호스트와 노드 VM 은 Ubuntu 24.04 이지만 세부 버전이 다릅니다. OpenStack
+   차트의 세부 버전은 :doc:`openstack-deploy` 장의 표를 참고하세요.
 
 범위와 한계
 ------------------------------------------------------------------------------------------
@@ -155,11 +179,3 @@ Linux 명령과 SSH 접속을 사용하며 OpenStack과 Kubernetes 구축 과정
    openstack-deploy
    verification
    troubleshooting
-
-
-구현 근거
-------------------------------------------------------------------------------------------
-
-* `Makefile <https://github.com/mayura13/openstack_project/tree/2bc695ebd1eb12059326849c82fe494dcbf48bdb/Makefile>`_
-* `run-deploy.sh <https://github.com/mayura13/openstack_project/tree/2bc695ebd1eb12059326849c82fe494dcbf48bdb/run-deploy.sh>`_
-* `versions.env <https://github.com/mayura13/openstack_project/tree/2bc695ebd1eb12059326849c82fe494dcbf48bdb/versions.env>`_
