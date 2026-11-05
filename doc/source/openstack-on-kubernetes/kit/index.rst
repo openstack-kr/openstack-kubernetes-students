@@ -153,7 +153,7 @@ OpenStack 과 Kubernetes 를 처음 접하며, 한 대의 서버에서 직접 �
      - 0.9.9
    * -
      - ansible-core
-     - 2.18.19
+     - 2.18.20
    * -
      - Helm
      - v3.18.4
