@@ -98,7 +98,7 @@ OpenStack CLI 환경은 ``~/venv-openstack`` 에 준비합니다.
 이름 해석 성공만으로 NTP 통신 성공을 판단하지 않습니다.
 
 
-구현 근거
+참고 코드
 ------------------------------------------------------------------------------------------
 
 * `stage0/preflight.sh <https://github.com/mayura13/openstack_project/tree/2bc695ebd1eb12059326849c82fe494dcbf48bdb/stage0/preflight.sh>`_

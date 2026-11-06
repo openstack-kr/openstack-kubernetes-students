@@ -4,27 +4,29 @@ lab kit 가이드북
 이 장을 읽기 전에
 ------------------------------------------------------------------------------------------
 
-이 가이드의 자동화 키트는 여러 설치 명령을 단계별 스크립트로 묶은 도구 모음입니다.
-사용자는 ``make stage-0`` 처럼 단계 이름을 지정하고, 키트가 그 단계의 명령을 실행합니다.
-자동화되었다고 해서 서버 준비나 결과 확인까지 생략되는 것은 아닙니다.
-처음 실습할 때는 단계별 목표와 결과를 확인하며 진행합니다.
+자동화 키트는 여러 설치 명령을 단계별로 묶어 실행하는 도구 모음입니다.
+``make stage-0`` 처럼 단계 이름을 지정하면 해당 작업을 실행합니다.
+각 단계가 끝나면 결과를 확인한 뒤 다음 단계로 진행합니다.
 
-실행 장소는 Windows 문서 편집 폴더가 아니라 SSH로 접속한 Ubuntu 호스트의
-``openstack_project`` 폴더입니다. ``pwd`` 로 위치를, ``hostname`` 과 ``whoami`` 로
-현재 서버와 계정을 확인합니다. 용어는 :doc:`/glossary` 에서 찾아볼 수 있습니다.
+이 가이드의 명령은 SSH로 접속한 Ubuntu 호스트의
+``openstack_project`` 폴더에서 실행합니다.
+이 폴더는 ``Makefile`` 과 ``stage0`` 등의 폴더가 있는 위치입니다.
 
+실행 전에 다음 명령으로 서버 이름, 로그인 계정과 현재 폴더를 확인합니다.
 
-이 가이드는 ``mayura13/openstack_project`` 의 자동화 코드를 설명합니다.
-문서 저장소와 구현 저장소는 서로 다릅니다. 아래 ``make`` 와 ``bash`` 명령은
-Ubuntu 구축 호스트의 **구현 저장소 최상위 폴더** 에서 실행합니다.
-Windows의 문서 편집용 PowerShell에서 실행하는 명령이 아닙니다.
+.. code-block:: bash
+
+   hostname
+   whoami
+   pwd
+
+낯선 용어는 :doc:`/glossary` 를 참고하세요.
 
 .. note::
 
-   기준은 구현 저장소의 커밋 ``2bc695ebd1eb12059326849c82fe494dcbf48bdb`` 입니다.
-   이 문서는 코드 대조 결과이며, 해당 커밋으로 새 서버 전체 구축을 실행해
-   성공을 확인한 보고서는 아닙니다. 초기화 기능을 사용하기 전에는 :doc:`troubleshooting` 의
-   수동 정리용 저장소 풀 이름 불일치를 확인하세요.
+   이 가이드는 자동화 코드의 실행 방법을 설명합니다.
+   새 서버에서의 전체 구축 성공 여부는 실제 실행 결과로 확인해야 합니다.
+   환경 초기화 전에는 :doc:`troubleshooting` 의 주의사항을 확인하세요.
 
 이 가이드에서 하는 일
 ------------------------------------------------------------------------------------------
@@ -87,7 +89,8 @@ Linux 명령과 SSH 접속을 사용하며 OpenStack과 Kubernetes 구축 과정
 이미 같은 실행 번호의 폴더가 있으면 중단하므로 새 번호를 사용합니다.
 다만 Makefile의 6단계 결과 경로는 ``logs/evaluation`` 으로 고정되어 있어 실행 번호별로
 자동 분리되지 않습니다. 회차별 보관 방법은 :doc:`verification` 을 참고하세요.
-``make up``, ``make verify``, ``make destroy`` 는 이 커밋에 없습니다.
+``make up``, ``make verify``, ``make destroy`` 는 이 가이드에서 사용하는
+실행 명령에 포함되지 않습니다.
 
 기준 버전
 ------------------------------------------------------------------------------------------
@@ -183,3 +186,11 @@ Linux 명령과 SSH 접속을 사용하며 OpenStack과 Kubernetes 구축 과정
    openstack-deploy
    verification
    troubleshooting
+
+
+참고 코드
+------------------------------------------------------------------------------------------
+
+* `Makefile <https://github.com/mayura13/openstack_project/tree/2bc695ebd1eb12059326849c82fe494dcbf48bdb/Makefile>`_
+* `run-deploy.sh <https://github.com/mayura13/openstack_project/tree/2bc695ebd1eb12059326849c82fe494dcbf48bdb/run-deploy.sh>`_
+* `versions.env <https://github.com/mayura13/openstack_project/tree/2bc695ebd1eb12059326849c82fe494dcbf48bdb/versions.env>`_
