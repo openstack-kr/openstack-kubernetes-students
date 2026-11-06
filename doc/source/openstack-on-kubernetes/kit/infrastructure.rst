@@ -122,7 +122,7 @@ DNS 검색 도메인 전달을 제어하기 위해 Netplan의
 점검을 통과하면 :doc:`kubernetes` 로 이동합니다.
 
 
-구현 근거
+참고 코드
 ------------------------------------------------------------------------------------------
 
 * `stage1/apply.sh <https://github.com/mayura13/openstack_project/tree/2bc695ebd1eb12059326849c82fe494dcbf48bdb/stage1/apply.sh>`_

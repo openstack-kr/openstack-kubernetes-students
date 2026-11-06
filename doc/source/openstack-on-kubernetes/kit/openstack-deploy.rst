@@ -83,7 +83,7 @@ Horizon Pod와 ``horizon-int`` 의 80번 포트를 확인합니다.
 :doc:`verification` 의 ``make stage-6`` 으로 서비스 동작과 최종 상태를 확인합니다.
 
 
-구현 근거
+참고 코드
 ------------------------------------------------------------------------------------------
 
 * `stage5/preflight.sh <https://github.com/mayura13/openstack_project/tree/2bc695ebd1eb12059326849c82fe494dcbf48bdb/stage5/preflight.sh>`_

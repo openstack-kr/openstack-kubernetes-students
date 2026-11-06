@@ -79,7 +79,7 @@ API, 네임스페이스, 라벨, 저장소, Helm 준비 상태를 확인한 뒤
 :doc:`openstack-deploy` 로 이동합니다.
 
 
-구현 근거
+참고 코드
 ------------------------------------------------------------------------------------------
 
 * `stage4/prepare.sh <https://github.com/mayura13/openstack_project/tree/2bc695ebd1eb12059326849c82fe494dcbf48bdb/stage4/prepare.sh>`_

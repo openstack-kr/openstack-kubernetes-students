@@ -81,7 +81,7 @@ Terraform 상태가 있으면 destroy를 사용하고, 없으면 정해진 이�
 실제 초기화를 실행하지 않습니다. 초기화는 실패 로그 수집을 대신하지 않습니다.
 
 
-구현 근거
+참고 코드
 ------------------------------------------------------------------------------------------
 
 * `stage1/terraform/main.tf <https://github.com/mayura13/openstack_project/tree/2bc695ebd1eb12059326849c82fe494dcbf48bdb/stage1/terraform/main.tf>`_

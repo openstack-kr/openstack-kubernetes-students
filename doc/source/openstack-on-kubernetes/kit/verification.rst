@@ -118,7 +118,7 @@ port-forward 정리를 시도합니다. 실패 후에는 잔여 자원도 확인
 해당 시험을 실제 수행한 뒤 결과를 추가합니다.
 
 
-구현 근거
+참고 코드
 ------------------------------------------------------------------------------------------
 
 * `stage6/verify-services.sh <https://github.com/mayura13/openstack_project/tree/2bc695ebd1eb12059326849c82fe494dcbf48bdb/stage6/verify-services.sh>`_

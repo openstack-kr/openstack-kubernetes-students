@@ -54,7 +54,7 @@ containerd 사용 여부와 시스템 Pod의 표시 상태를 확인합니다.
 호스트의 kubeconfig 준비는 다음 :doc:`prereq-components` 에서 수행합니다.
 
 
-구현 근거
+참고 코드
 ------------------------------------------------------------------------------------------
 
 * `stage3/prepare.sh <https://github.com/mayura13/openstack_project/tree/2bc695ebd1eb12059326849c82fe494dcbf48bdb/stage3/prepare.sh>`_
