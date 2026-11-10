@@ -99,58 +99,47 @@ Linux 명령과 SSH 접속을 사용하며 OpenStack과 Kubernetes 구축 과정
 
 .. list-table:: 버전과 설정 위치
    :header-rows: 1
+   :widths: 30 35 35
 
    * - 항목
      - 값
      - 위치
-   * - Terraform / libvirt provider
-     - 1.15.9 / 0.9.9
+   * - Terraform
+     - 1.15.9
      - ``versions.env``, ``stage1/terraform/versions.tf``
-   * - kubectl / Helm
-     - 1.35.4 / 3.18.4
+   * - libvirt provider
+     - 0.9.9
+     - ``versions.env``, ``stage1/terraform/versions.tf``
+   * - kubectl
+     - 1.35.4
      - ``versions.env``
-   * - ansible-core / OpenStack CLI
-     - 2.18.19 / 10.5.0
+   * - Helm
+     - 3.18.4
+     - ``versions.env``
+   * - ansible-core
+     - 2.18.20
+     - ``versions.env``
+   * - OpenStack CLI
+     - 10.5.0
      - ``versions.env``
    * - Kubespray
-     - v2.31.0, 짧은 커밋 ID ``1c9add4``
-     - ``versions.env`` 와 단계별 검사
+     - v2.31.0 (커밋 ``1c9add4``)
+     - ``versions.env`` 및 단계별 검사
    * - Kubernetes
      - 1.35.4
      - 설치 버전
-   * -
-     - Kubespray
-     - v2.31.0 (커밋 ``1c9add4``)
-   * -
-     - 네트워크 플러그인
+   * - 네트워크 플러그인
      - Calico (Kubespray 기본값)
-   * -
-     - 컨테이너 런타임
+     - Kubespray 설정
+   * - 컨테이너 런타임
      - containerd 2.2.3
-   * - 구축 도구
-     - Terraform
-     - 1.15.9
-   * -
-     - libvirt provider (dmacvicar/libvirt)
-     - 0.9.9
-   * -
-     - ansible-core
-     - 2.18.20
-   * -
-     - Helm
-     - v3.18.4
-   * -
-     - kubectl
-     - v1.35.4
-   * -
-     - openstack CLI
-     - 10.5.0
-   * - OS
-     - 호스트 서버
+     - Kubespray 설정
+   * - 호스트 서버 OS
      - Ubuntu 24.04.1, 커널 6.8.0-51
-   * -
-     - 노드 VM
-     - Ubuntu 24.04.5, 커널 6.8.0-147 (cloud image 릴리스 20261017)
+     - 호스트 서버
+   * - 노드 VM OS
+     - Ubuntu 24.04.5, 커널 6.8.0-147
+     - Ubuntu cloud image (20261017)
 
 .. note::
    호스트와 노드 VM 은 Ubuntu 24.04 이지만 세부 버전이 다릅니다. OpenStack
