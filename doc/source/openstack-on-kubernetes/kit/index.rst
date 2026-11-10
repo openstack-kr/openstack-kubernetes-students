@@ -117,6 +117,7 @@ Linux 명령과 SSH 접속을 사용하며 OpenStack과 Kubernetes 구축 과정
      - ``versions.env`` 와 단계별 검사
    * - Kubernetes
      - 1.35.4
+     - 설치 버전
    * -
      - Kubespray
      - v2.31.0 (커밋 ``1c9add4``)
