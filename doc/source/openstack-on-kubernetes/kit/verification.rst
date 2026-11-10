@@ -123,3 +123,11 @@ port-forward 정리를 시도합니다. 실패 후에는 잔여 자원도 확인
 
 * `stage6/verify-services.sh <https://github.com/mayura13/openstack_project/tree/2bc695ebd1eb12059326849c82fe494dcbf48bdb/stage6/verify-services.sh>`_
 * `stage6/collect-state.sh <https://github.com/mayura13/openstack_project/tree/2bc695ebd1eb12059326849c82fe494dcbf48bdb/stage6/collect-state.sh>`_
+
+수동 구축의 후속 검증과 구분하기
+------------------------------------------------------------------------------------------
+
+수동 구축에서는 11월 3~4일 Horizon 로그인과 인스턴스 생성, 내부 DHCP를
+추가로 확인했습니다. 절차와 결과는 :doc:`../manual/ch7_horizon` 에 있습니다.
+그 결과가 이 키트의 검증 스크립트에 같은 검사가 구현됐다는 뜻은 아닙니다.
+키트로 새 환경을 구축한 경우 그 환경에서의 실행 결과를 별도로 기록합니다.
