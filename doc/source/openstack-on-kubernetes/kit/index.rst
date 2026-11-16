@@ -127,7 +127,7 @@ Linux 명령과 SSH 접속을 사용하며 OpenStack과 Kubernetes 구축 과정
      - ``versions.env`` 및 단계별 검사
    * - Kubernetes
      - 1.35.4
-     - Kubespray
+     - 설치 버전
    * - 네트워크 플러그인
      - Calico (Kubespray 기본값)
      - Kubespray 설정
