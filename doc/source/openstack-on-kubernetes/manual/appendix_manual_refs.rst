@@ -30,7 +30,8 @@ NTP 보정 중 호스트 시계가 약 366초 바뀌어 해당 구간의 소요 
 ------------------------------------------------------------------------------------------
 
 * ``~/openinfra-lab-kit/openstack-helm/values-horizon.yaml``: Horizon 설정
-* ``~/openinfra-lab-kit/openstack-helm/values-neutron-vxlan4790.yaml``: Neutron 포트 변경 설정
+* ``~/openinfra-lab-kit/openstack-helm/values-neutron-vxlan4790.yaml``:
+  Neutron 포트 변경 설정
 * CirrOS 이미지 원본·체크섬, 생성한 플레이버와 네트워크의 실제 설정 및 생성 기록
 * CLI 인스턴스 생성 명령, Horizon 화면 결과와 콘솔·DHCP 로그
 * ``~/logs/baseline-1104/``: 변경 후 상태 기록

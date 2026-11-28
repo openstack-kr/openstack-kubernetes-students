@@ -15,7 +15,8 @@ OpenStack의 인증·이미지·API 등 제어 서비스를 배치할 워커입�
 
 
 호스트는 Ubuntu 24.04.1을 설치한 서버입니다. CPU는 Intel Xeon Gold 6262(2소켓, 96스레드),
-메모리는 125 GiB, SSD는 약 465.8 GB였습니다. 호스트에는 ``lab`` 계정으로, VM에는 ``kit`` 계정으로 접속했습니다.
+메모리는 125 GiB, SSD는 약 465.8 GB였습니다. 호스트에는 ``lab`` 계정으로, VM에는 ``kit`` 계정으로
+접속했습니다.
 
 .. list-table:: 노드별 역할과 할당량
    :header-rows: 1

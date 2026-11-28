@@ -11,7 +11,8 @@ Kubespray는 설치 작업이 작성된 Ansible 프로젝트이므로 Python 가
 
 
 Kubespray는 Ansible로 Kubernetes를 설치합니다. 컨트롤 플레인과 etcd는 ``cp`` 한 대에,
-워커 역할은 나머지 세 대에 배치했습니다. Kubespray v2.31.0의 샘플 인벤토리를 복사하고 2단계에서 확인한 노드 목록을 사용했습니다.
+워커 역할은 나머지 세 대에 배치했습니다. Kubespray v2.31.0의 샘플 인벤토리를 복사하고 2단계에서 확인한 노드 목록을
+사용했습니다.
 
 .. code-block:: bash
 
@@ -30,7 +31,8 @@ Kubespray는 Ansible로 Kubernetes를 설치합니다. 컨트롤 플레인과 et
    ansible_user=kit
    ansible_ssh_private_key_file=/home/lab/.ssh/id_vm_ed25519
 
-``group_vars/k8s_cluster/k8s-cluster.yml`` 에서 ``kube_version: 1.35.4`` 를 한 번만 지정합니다.
+``group_vars/k8s_cluster/k8s-cluster.yml`` 에서 ``kube_version: 1.35.4`` 를 한 번만
+지정합니다.
 네트워크 플러그인은 Calico, 컨테이너 런타임은 containerd를 사용했습니다.
 
 .. code-block:: bash

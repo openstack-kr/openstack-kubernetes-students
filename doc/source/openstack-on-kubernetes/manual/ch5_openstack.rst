@@ -16,14 +16,19 @@ values 파일에는 이번 환경에 맞는 설정을 넣습니다. 팀은 차�
 설치 순서
 ------------------------------------------------------------------------------------------
 
-#. ``rabbitmq`` → ``mariadb`` → ``memcached``. 서비스에서 사용할 메시지 큐, 데이터베이스, 캐시를 먼저 설치했습니다.
-#. ``ingress-nginx`` → ``keystone`` → ``glance``. Ingress를 구성한 뒤 인증 서비스와 이미지 서비스를 설치했습니다.
-#. ``openvswitch`` → ``libvirt`` → ``placement`` → ``nova`` → ``neutron``. 가상 스위치와 컴퓨트 서비스를 준비하고 네트워크 서비스를 연결했습니다.
+#. ``rabbitmq`` → ``mariadb`` → ``memcached``. 서비스에서 사용할 메시지 큐, 데이터베이스, 캐시를 먼저
+   설치했습니다.
+#. ``ingress-nginx`` → ``keystone`` → ``glance``. Ingress를 구성한 뒤 인증 서비스와 이미지
+   서비스를 설치했습니다.
+#. ``openvswitch`` → ``libvirt`` → ``placement`` → ``nova`` → ``neutron``. 가상
+   스위치와 컴퓨트 서비스를 준비하고 네트워크 서비스를 연결했습니다.
 
 차트별로 태그 ``2026.1.0`` 의 ``values_overrides`` 를 확인했습니다. 여덟 개 차트에는
-``2026.1-ubuntu_noble.yaml`` 이 있었고, Open vSwitch에는 ``ubuntu_noble.yaml`` 을 사용했습니다.
+``2026.1-ubuntu_noble.yaml`` 이 있었고, Open vSwitch에는 ``ubuntu_noble.yaml`` 을
+사용했습니다.
 Memcached에는 같은 이름의 파일이 없었습니다. 서버에는 릴리스별 설정 11개가
-``openstack-helm/values-*.yaml`` 로 남아 있습니다. 차트별 설치 명령을 재현할 때는 이 파일과 실제 적용 순서를 함께 확인해야 합니다.
+``openstack-helm/values-*.yaml`` 로 남아 있습니다. 차트별 설치 명령을 재현할 때는 이 파일과 실제 적용 순서를
+함께 확인해야 합니다.
 
 
 서비스를 나누어 설치하는 이유
@@ -118,13 +123,17 @@ Ingress를 사용했으므로 다른 버전이나 접속 방식의 설정을 그
 * **Ingress** — Keystone 이름으로 접속했을 때 HTTP 404가 발생했습니다. 차트가 만든 Ingress의 클래스는
   ``ingress-openstack`` 이었지만 컨트롤러는 ``nginx`` 를 처리하고 있었습니다.
   컨트롤러의 클래스를 맞춘 뒤 이름을 통한 접속에 성공했습니다.
-* **DNS** — 가상 네트워크의 DHCP 검색 도메인 ``lab.local`` 이 파드까지 전달되면서 일부 이름이 잘못된 주소로 해석됐습니다.
+* **DNS** — 가상 네트워크의 DHCP 검색 도메인 ``lab.local`` 이 파드까지 전달되면서 일부 이름이 잘못된 주소로
+  해석됐습니다.
   각 VM에서 ``UseDomains=false`` 로 바꾼 뒤 이름 해석을 다시 확인했습니다.
-* **Glance** — 초기 이미지 CirrOS 다운로드가 134초 뒤 시간 초과로 실패했습니다. ``bootstrap.enabled=false`` 로
+* **Glance** — 초기 이미지 CirrOS 다운로드가 134초 뒤 시간 초과로 실패했습니다.
+  ``bootstrap.enabled=false`` 로
   초기 이미지 다운로드를 끄고 다시 배포했습니다. 실제 이미지 등록은 :doc:`ch6_verify` 에서 따로 확인했습니다.
 * **libvirt와 Nova** — Ceph를 사용하지 않아 두 차트에 ``conf.ceph.enabled=false`` 를 지정했습니다.
-  Nova에는 ``conf.nova.libvirt.virt_type=qemu`` 를 설정한 뒤 ``nova.conf`` 에서 적용 여부를 확인했습니다.
-* **Neutron** — 컴퓨트 노드의 NIC는 한 개였습니다. 이번 실습에서는 외부 네트워크 브리지 ``br-ex`` 를 구성하지 않았습니다.
+  Nova에는 ``conf.nova.libvirt.virt_type=qemu`` 를 설정한 뒤 ``nova.conf`` 에서 적용 여부를
+  확인했습니다.
+* **Neutron** — 컴퓨트 노드의 NIC는 한 개였습니다. 이번 실습에서는 외부 네트워크 브리지 ``br-ex`` 를 구성하지
+  않았습니다.
 
 배포 확인
 ------------------------------------------------------------------------------------------

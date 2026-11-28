@@ -12,7 +12,8 @@
 
 11월 2일에 Helm 배포 상태와 OpenStack API를 확인했습니다. 호스트에서는 클러스터 내부 서비스 이름이
 해석되지 않아 ``openstack`` 네임스페이스의 클라이언트 파드 ``osc`` 에서 OpenStack CLI를 실행했습니다.
-이 파드는 ``openstack-client:2026.1-ubuntu_noble`` 이미지를 사용하고 관리자 인증 정보를 Kubernetes Secret에서 읽습니다.
+이 파드는 ``openstack-client:2026.1-ubuntu_noble`` 이미지를 사용하고 관리자 인증 정보를 Kubernetes
+Secret에서 읽습니다.
 
 
 검증용 파드와 인증 정보
@@ -87,9 +88,12 @@ Secret은 Kubernetes에서 비밀번호 등 민감한 설정을 전달할 때 �
 ------------------------------------------------------------------------------------------
 
 * **Keystone** — 관리자 토큰을 발급받았습니다.
-* **Glance** — 1 MB 테스트 파일을 이미지로 등록했고 상태는 ``active`` 였습니다. 부팅 가능한 OS 이미지는 사용하지 않았습니다.
-* **Neutron** — 생성한 네트워크가 ``ACTIVE`` 였습니다. OVS 에이전트 3개와 L3·DHCP·Metadata 에이전트 각 1개가 모두 살아 있었습니다.
-* **Nova** — conductor, scheduler와 두 compute 서비스가 ``enabled`` 및 ``up`` 이었습니다. 하이퍼바이저도 두 대 모두 ``up`` 이었습니다.
+* **Glance** — 1 MB 테스트 파일을 이미지로 등록했고 상태는 ``active`` 였습니다. 부팅 가능한 OS 이미지는 사용하지
+  않았습니다.
+* **Neutron** — 생성한 네트워크가 ``ACTIVE`` 였습니다. OVS 에이전트 3개와 L3·DHCP·Metadata 에이전트
+  각 1개가 모두 살아 있었습니다.
+* **Nova** — conductor, scheduler와 두 compute 서비스가 ``enabled`` 및 ``up`` 이었습니다.
+  하이퍼바이저도 두 대 모두 ``up`` 이었습니다.
 * **Placement** — ``compute-1`` 과 ``compute-2`` 가 리소스 제공자로 등록돼 있었습니다.
 
 아래는 기존 ``osc`` 파드에서 다시 조회하는 예입니다. 이미지 등록과 네트워크 생성은 별도의 생성 작업으로 검증했습니다.
