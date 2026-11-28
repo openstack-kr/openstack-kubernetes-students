@@ -12,7 +12,7 @@
 
 project = 'OpenStack & Kubernetes 한글 문서화 프로젝트'
 copyright = '2026, infra-cloud-kr contributors'
-author = 'infra-cloud-kr contributors'
+author = ""
 
 # -- 일반 설정 ---------------------------------------------------------------
 
@@ -58,6 +58,7 @@ html_theme_options = {
     # 불필요한 기본 버튼 제거
     'use_download_button': False,
     'use_fullscreen_button': False,
+
 }
 
 # 라이트 모드 기본 설정
