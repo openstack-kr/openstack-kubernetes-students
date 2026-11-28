@@ -47,7 +47,8 @@ local-path는 해당 노드의 디스크를 사용하며 여러 노드에 데이
 노드 라벨과 저장소
 ------------------------------------------------------------------------------------------
 
-``ctrl-worker`` 에는 ``openstack-control-plane=enabled`` 와 ``openvswitch=enabled`` 를,
+``ctrl-worker`` 에는 ``openstack-control-plane=enabled`` 와
+``openvswitch=enabled`` 를,
 ``compute-1``, ``compute-2`` 에는 ``openstack-compute-node=enabled`` 와
 ``openvswitch=enabled`` 를 붙입니다.
 Kubernetes 컨트롤 플레인인 ``cp`` 와 OpenStack 제어 서비스를 두는 ``ctrl-worker`` 는

@@ -69,7 +69,8 @@ OpenStack 릴리스 이름과 개별 Helm 차트의 버전은 서로 다릅니�
 스토리지 확인
 ------------------------------------------------------------------------------------------
 
-Kubespray 인벤토리의 ``group_vars/k8s_cluster/addons.yml`` 에 다음 값을 설정한 뒤 3단계 플레이북을 다시 실행했습니다.
+Kubespray 인벤토리의 ``group_vars/k8s_cluster/addons.yml`` 에 다음 값을 설정한 뒤 3단계 플레이북을
+다시 실행했습니다.
 
 .. code-block:: yaml
 

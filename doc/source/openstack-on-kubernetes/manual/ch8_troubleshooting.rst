@@ -36,20 +36,28 @@ Terraform이 디스크를 생성했지만 VM을 시작하지 못했습니다. �
    sudo aa-status
    virsh list --all
 
-임시로 변경했던 libvirt 보안 설정을 원복하고 ``/etc/apparmor.d/local/abstractions/libvirt-qemu`` 에
+임시로 변경했던 libvirt 보안 설정을 원복하고
+``/etc/apparmor.d/local/abstractions/libvirt-qemu`` 에
 실습 디스크 경로에 대한 규칙 ``/var/lib/libvirt/images/** rwk,`` 을 추가했습니다. 규칙 적용 후 VM 네 대가
 실행됐고 QEMU 프로세스 네 개에 AppArmor 프로파일이 적용된 것을 확인했습니다.
-실패 당시 커널 로그에서 ``DENIED`` 는 확인하지 못했습니다. 규칙을 제거한 대조 실험도 수행하지 않아 원인을 한 가지로 단정하기 어렵습니다.
+실패 당시 커널 로그에서 ``DENIED`` 는 확인하지 못했습니다.
+규칙을 제거한 대조 실험도 수행하지 않아 원인을
+한 가지로 단정하기 어렵습니다.
 
 배포 중 증상별 확인
 ------------------------------------------------------------------------------------------
 
-* **NTP 동기화 실패** — 호스트의 chrony 상태와 아웃바운드 UDP 123 정책을 확인합니다. 이번에는 방화벽 정책 변경 후 동기화됐습니다.
-* **노드 이름이 127.0.1.1로 해석됨** — 인벤토리에서 ``ansible_host``, ``ip``, ``access_ip`` 가 각 VM의 주소인지 확인합니다.
-* **PVC가 Pending 상태** — ``general`` 의 바인딩 모드는 ``WaitForFirstConsumer`` 입니다. PVC를 사용하는 파드가 어느 노드에 배치됐는지 함께 봅니다.
-* **Keystone 404** — 생성된 Ingress와 컨트롤러의 클래스가 일치하는지 확인합니다. DNS 문제는 파드 안에서 서비스 이름이 가리키는 주소를 확인해 구분합니다.
+* **NTP 동기화 실패** — 호스트의 chrony 상태와 아웃바운드 UDP 123 정책을 확인합니다. 이번에는 방화벽 정책 변경 후
+  동기화됐습니다.
+* **노드 이름이 127.0.1.1로 해석됨** — 인벤토리에서 ``ansible_host``, ``ip``, ``access_ip`` 가
+  각 VM의 주소인지 확인합니다.
+* **PVC가 Pending 상태** — ``general`` 의 바인딩 모드는 ``WaitForFirstConsumer`` 입니다.
+  PVC를 사용하는 파드가 어느 노드에 배치됐는지 함께 봅니다.
+* **Keystone 404** — 생성된 Ingress와 컨트롤러의 클래스가 일치하는지 확인합니다. DNS 문제는 파드 안에서 서비스
+  이름이 가리키는 주소를 확인해 구분합니다.
 * **Glance 설치 시간 초과** — 실패한 bootstrap Job의 로그에서 이미지 다운로드 실패를 확인했습니다.
-* **libvirt·nova-compute가 Init 상태** — Neutron 배포 여부부터 확인합니다. ``helm list`` 의 상태와 파드의 준비 상태를 따로 봅니다.
+* **libvirt·nova-compute가 Init 상태** — Neutron 배포 여부부터 확인합니다. ``helm list`` 의
+  상태와 파드의 준비 상태를 따로 봅니다.
 
 5단계에서 적용한 설정은 :doc:`ch5_openstack` 에 정리했습니다.
 
