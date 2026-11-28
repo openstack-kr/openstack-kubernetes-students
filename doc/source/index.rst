@@ -44,7 +44,6 @@ OpenStack & Kubernetes 운영 문서화 및 국제화
 .. toctree::
    :maxdepth: 2
 
-   labs/index
 
 .. toctree::
    :maxdepth: 1
